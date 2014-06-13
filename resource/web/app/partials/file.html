@@ -1,0 +1,49 @@
+<div class="panel panel-default">
+    <div ng-repeat="line in file" class="linecontainer">
+        <div class="linenr">{{ line.nr }}</div>
+        <div class="line highlight" data-ng-bind-html="line.line+'&nbsp;'"></div>
+        <br style="clear: both">
+        <div class="linemessages" ng-show="line.msg">
+            <div class="well well-sm">
+            <div class="linemessage" ng-repeat="message in line.msg">
+                <small class="{{ message.level }}">{{ message.module }}</small> {{ message.message }}
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .linecontainer{
+    }
+    .linenr{
+        width: 32px;
+        float: left;
+        font-family: monospace;
+        background: #DDD;
+    }
+    .line{
+        width: 1106px;
+        float: right;
+        font-family: monospace;
+        white-space: pre;
+        background: #EEE;
+        padding-left: 4px;
+    }
+    .linemessages{
+        border-left: 32px solid #DDD;
+        padding-left: 4px;
+        background: #EEE;
+    }
+    .well{
+        margin-bottom: 0 !important;
+    }
+    .info{
+        color: blue;
+    }
+    .warning{
+        color: orange;
+    }
+    .error{
+        color: red;
+    }
+</style>
