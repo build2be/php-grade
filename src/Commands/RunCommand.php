@@ -5,6 +5,7 @@ namespace PhpGrade\Commands;
 use PhpGrade\Formatters\ConsoleFormatter;
 use PhpGrade\MessageList;
 use PhpGrade\Parsers\ParserInterface;
+use PhpGrade\Parsers\PhpCpdParser;
 use PhpGrade\Parsers\PhpCsParser;
 use PhpGrade\Parsers\PhpMdParser;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -47,22 +48,20 @@ class RunCommand extends BaseCommand
 
 
         $finder = new Finder();
-        $finder->files()->in(__DIR__);
+        $finder->files()->in(__DIR__ . '/../');
 
-        foreach ($finder as $file) {
-
-        }
         $messages = new MessageList();
 
         $parsers = array(
             new PhpCsParser(),
             new PhpMdParser(),
+            new PhpCpdParser(),
         );
         foreach($parsers as $parser){
             /**
              * @var ParserInterface $parser
              */
-            $messages->addMessages($parser->run($location));
+            $parser->run($finder, $messages);
         }
 
         $formatter = new ConsoleFormatter();

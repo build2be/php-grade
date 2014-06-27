@@ -36,16 +36,6 @@ class PhpCsCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $file = $input->getArgument('file');
-        if (!file_exists($file)) {
-            throw new \Exception("Location $file does not exists.");
-        };
-
-        $parser = new PhpCsParser();
-        $messages = $parser->run($file);
-
-        $formatter = new ConsoleFormatter();
-        $formatter->format($messages);
     }
 
 }

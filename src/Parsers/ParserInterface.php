@@ -9,6 +9,8 @@
 namespace PhpGrade\Parsers;
 
 
+use PhpGrade\MessageList;
+
 interface ParserInterface {
-    public function run($file);
+    public function run($iterator, MessageList &$messageList);
 } 

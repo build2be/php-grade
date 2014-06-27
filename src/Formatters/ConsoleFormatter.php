@@ -13,6 +13,12 @@ use PhpGrade\Message;
 
 class ConsoleFormatter extends BaseFormatter
 {
+    protected function formatFile($filename, $file)
+    {
+        echo $filename . PHP_EOL;
+        parent::formatFile($filename, $file);
+    }
+
     protected function formatMessage(Message $message)
     {
         printf("%5s [ %-10s ][ %-7s ] %s\n",

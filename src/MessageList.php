@@ -12,12 +12,12 @@ namespace PhpGrade;
 class MessageList {
     private $messages = array();
 
-    public function addMessages($messages){
+    public function addMessages($file, $messages){
         foreach($messages as $lineNr => $messageList){
-            if(isset($this->messages[$lineNr])){
-                $this->messages[$lineNr] = array_merge($this->messages[$lineNr], $messageList);
+            if(isset($this->messages[$file][$lineNr])){
+                $this->messages[$file][$lineNr] = array_merge($this->messages[$file][$lineNr], $messageList);
             }else{
-                $this->messages[$lineNr] = $messageList;
+                $this->messages[$file][$lineNr] = $messageList;
             }
         }
     }
@@ -27,8 +27,12 @@ class MessageList {
      */
     public function getMessages()
     {
-        ksort($this->messages);
-        return $this->messages;
+        $result = array();
+        foreach($this->messages as $file => $lines){
+            ksort($lines);
+            $result[$file] = $lines;
+        }
+        return $result;
     }
 
 } 

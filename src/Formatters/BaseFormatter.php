@@ -11,7 +11,13 @@ namespace PhpGrade\Formatters;
 
 class BaseFormatter {
     public function format($messages){
-        foreach($messages as $line){
+        foreach($messages as $filename => $file){
+            $this->formatFile($filename, $file);
+        }
+    }
+
+    protected function formatFile($filename, $file){
+        foreach($file as $line){
             $this->formatLine($line);
         }
     }
