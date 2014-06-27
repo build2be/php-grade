@@ -10,6 +10,7 @@ use PhpGrade\Parsers\PhpCpdParser;
 use PhpGrade\Parsers\PhpCsParser;
 use PhpGrade\Parsers\PhpDcdParser;
 use PhpGrade\Parsers\PhpMdParser;
+use PhpGrade\Parsers\PhpSecurityParser;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -80,12 +81,16 @@ class RunCommand extends BaseCommand
         if(in_array('phpdcd', $tools) || in_array('all', $tools)){
             $parsers[] = new PhpDcdParser();
         }
+        if(in_array('security', $tools) || in_array('all', $tools)){
+            $parsers[] = new PhpSecurityParser();
+        }
 
         foreach($parsers as $parser){
             /**
              * @var ParserInterface $parser
              */
-            $parser->run($finder, $messages);
+            $finderInstance = clone $finder;
+            $parser->run($finderInstance, $messages);
         }
 
         if($input->getOption('formatter') === null){
