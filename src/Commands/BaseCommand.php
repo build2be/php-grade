@@ -13,9 +13,10 @@ class BaseCommand extends Command
         parent::__construct($name);
     }
 
-    protected function getBuilder($prefix) {
-      $builder = new ProcessBuilder();
-      $builder->setPrefix($prefix);
-      return $builder;
+    protected function getBuilder($prefix)
+    {
+        $builder = new ProcessBuilder();
+        $builder->setPrefix($prefix);
+        return $builder;
     }
 }
