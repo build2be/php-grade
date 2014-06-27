@@ -24,6 +24,7 @@
         "symfony/process": "~2.5",
         "symfony/finder": "~2.5",
         "sebastian/phpcpd": "2.0.1",
-        "sebastian/phpdcd": "1.0.2"
+        "sebastian/phpdcd": "1.0.2",
+        "symfony/yaml": "*"
     }
 }
