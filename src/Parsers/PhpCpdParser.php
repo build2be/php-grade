@@ -14,14 +14,15 @@ use PhpGrade\Message;
 use PhpGrade\MessageList;
 use SebastianBergmann\PHPCPD\Detector\Detector;
 use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
 class PhpCpdParser extends BaseParser implements ParserInterface{
 
-    public function run($iterator, MessageList &$messageList){
+    public function run(Finder $iterator, MessageList &$messageList){
         $detector = new Detector(new DefaultStrategy(), null);
         $config = new Config();
-        $clones = $detector->copyPasteDetection($iterator,
+        $clones = $detector->copyPasteDetection($iterator->name("*.php"),
           $config->getPhpcpdMinLines(),
           $config->getPhpcpdMinTokens(),
           $config->isPhpcpdFuzzyVariableMatching());

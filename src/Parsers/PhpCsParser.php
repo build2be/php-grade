@@ -12,11 +12,13 @@ namespace PhpGrade\Parsers;
 use PhpGrade\Config;
 use PhpGrade\Message;
 use PhpGrade\MessageList;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
 class PhpCsParser extends BaseParser implements ParserInterface{
 
-    public function run($iterator, MessageList &$messageList){
+    public function run(Finder $iterator, MessageList &$messageList){
+        $iterator = $iterator->name("*.php");
         foreach($iterator as $file){
             $builder = $this->getBuilder('phpcs');
             $builder->setArguments(array('--report=xml', $file));

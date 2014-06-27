@@ -12,12 +12,13 @@ namespace PhpGrade\Parsers;
 use PhpGrade\Config;
 use PhpGrade\Message;
 use PhpGrade\MessageList;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
 class PhpMdParser extends BaseParser implements ParserInterface{
 
-    public function run($iterator, MessageList &$messageList){
-        foreach($iterator as $file){
+    public function run(Finder $iterator, MessageList &$messageList){
+        foreach($iterator->name("*.php") as $file){
             $builder = $this->getBuilder('phpmd');
             $builder->setArguments(array(
                 $file,

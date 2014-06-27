@@ -58,7 +58,7 @@ class RunCommand extends BaseCommand
 
 
         $finder = new Finder();
-        $finder->files()->in($location)->name("*.php");
+        $finder->files()->in($location);
 
         $messages = new MessageList();
 
