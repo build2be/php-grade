@@ -53,7 +53,7 @@ class RunCommand extends BaseCommand
 
 
         $finder = new Finder();
-        $finder->files()->in(__DIR__ . '/../');
+        $finder->files()->in($location);
 
         $messages = new MessageList();
 
