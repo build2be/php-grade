@@ -20,7 +20,11 @@ class PhpCpdParser extends BaseParser implements ParserInterface{
 
     public function run($iterator, MessageList &$messageList){
         $detector = new Detector(new DefaultStrategy(), null);
-        $clones = $detector->copyPasteDetection($iterator, 5, 20, true);
+        $config = new Config();
+        $clones = $detector->copyPasteDetection($iterator,
+          $config->getPhpcpdMinLines(),
+          $config->getPhpcpdMinTokens(),
+          $config->isPhpcpdFuzzyVariableMatching());
 
         if(count($clones) == 0){
             return null;
