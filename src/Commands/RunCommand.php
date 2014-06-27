@@ -7,6 +7,7 @@ use PhpGrade\MessageList;
 use PhpGrade\Parsers\ParserInterface;
 use PhpGrade\Parsers\PhpCpdParser;
 use PhpGrade\Parsers\PhpCsParser;
+use PhpGrade\Parsers\PhpDcdParser;
 use PhpGrade\Parsers\PhpMdParser;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -56,6 +57,7 @@ class RunCommand extends BaseCommand
             new PhpCsParser(),
             new PhpMdParser(),
             new PhpCpdParser(),
+            new PhpDcdParser(),
         );
         foreach($parsers as $parser){
             /**
