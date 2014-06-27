@@ -20,44 +20,23 @@ class PhpCpdParser extends BaseParser implements ParserInterface{
 
     public function run($iterator, MessageList &$messageList){
         $detector = new Detector(new DefaultStrategy(), null);
-        $clones = $detector->copyPasteDetection($iterator);
+        $clones = $detector->copyPasteDetection($iterator, 5, 20, true);
+
         if(count($clones) == 0){
             return null;
         }
         foreach($clones as $clone){
-
-        }
-        return array();
-    }
-
-    protected function parseOutput($output)
-    {
-        $output = simplexml_load_string($output);
-
-        /**
-         * @var \SimpleXmlElement $file
-         */
-        $file = $output->file;
-        $result = array();
-        $config = new Config();
-        foreach($file->children() as $phpmdMessage){
-            $messageObject = new Message('phpmd');
-            $lineNr = (int) $phpmdMessage['beginline'];
-            $messageObject->setLine($lineNr);
-            $messageObject->setMessage(trim((string) $phpmdMessage));
-
-            $priority = (int) $phpmdMessage['priority'];
-            $errorLevel = Message::LEVEL_INFO;
-            if($priority >= $config->getPhpcsWarningLevel()){
-                $errorLevel = Message::LEVEL_WARNING;
+            foreach($clone->getFiles() as $file){
+                $filename = (string) $file->getName();
+                $lineNo = $file->getStartLine();
+                $messageObject = new Message('phpcpd');
+                $messageObject->setLine($lineNo);
+                $messageObject->setErrorLevel(Message::LEVEL_INFO);
+                $messageObject->setMessage('Code duplication');
+                $result[$lineNo][] = $messageObject;
+                $messageList->addMessages($filename, $result);
             }
-            if($priority >= $config->getPhpcsErrorLevel()){
-                $errorLevel = Message::LEVEL_ERROR;
-            }
-            $messageObject->setErrorLevel($errorLevel);
-            $result[$lineNr][] = $messageObject;
         }
-        return $result;
     }
 
 } 
