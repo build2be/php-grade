@@ -13,12 +13,16 @@ use PhpGrade\Config;
 use PhpGrade\Message;
 use Symfony\Component\Process\Process;
 
-class PhpCsParser extends BaseParser implements ParserInterface{
+class PhpMdParser extends BaseParser implements ParserInterface{
 
     public function run($file){
-        // phpcs --report=xml $1
-        $builder = $this->getBuilder('phpcs');
-        $builder->setArguments(array('--report=xml', $file));
+        $builder = $this->getBuilder('phpmd');
+        $builder->setArguments(array(
+            $file,
+            'xml',
+            'cleancode,codesize,controversial,design,naming,unusedcode',
+          )
+        );
 
         echo $builder->getProcess()->getCommandLine() . PHP_EOL;
         $process = new Process($builder->getProcess()->getCommandLine());
@@ -42,18 +46,18 @@ class PhpCsParser extends BaseParser implements ParserInterface{
         $file = $output->file;
         $result = array();
         $config = new Config();
-        foreach($file->children() as $phpcsMessage){
-            $messageObject = new Message('phpcs');
-            $lineNr = (int) $phpcsMessage['line'];
+        foreach($file->children() as $phpmdMessage){
+            $messageObject = new Message('phpmd');
+            $lineNr = (int) $phpmdMessage['beginline'];
             $messageObject->setLine($lineNr);
-            $messageObject->setMessage((string) $phpcsMessage);
+            $messageObject->setMessage(trim((string) $phpmdMessage));
 
-            $severity = (int) $phpcsMessage['severity'];
+            $priority = (int) $phpmdMessage['priority'];
             $errorLevel = Message::LEVEL_INFO;
-            if($severity >= $config->getPhpcsWarningLevel()){
+            if($priority >= $config->getPhpcsWarningLevel()){
                 $errorLevel = Message::LEVEL_WARNING;
             }
-            if($severity >= $config->getPhpcsErrorLevel()){
+            if($priority >= $config->getPhpcsErrorLevel()){
                 $errorLevel = Message::LEVEL_ERROR;
             }
             $messageObject->setErrorLevel($errorLevel);

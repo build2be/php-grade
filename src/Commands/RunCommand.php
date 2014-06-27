@@ -2,6 +2,11 @@
 
 namespace PhpGrade\Commands;
 
+use PhpGrade\Formatters\ConsoleFormatter;
+use PhpGrade\MessageList;
+use PhpGrade\Parsers\ParserInterface;
+use PhpGrade\Parsers\PhpCsParser;
+use PhpGrade\Parsers\PhpMdParser;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -47,16 +52,20 @@ class RunCommand extends BaseCommand
         foreach ($finder as $file) {
 
         }
+        $messages = new MessageList();
 
-
-        $command = $this->getApplication()->find('cs');
-
-        $arguments = array(
-          'command' => 'cs',
-          'file' => $location,
+        $parsers = array(
+            new PhpCsParser(),
+            new PhpMdParser(),
         );
+        foreach($parsers as $parser){
+            /**
+             * @var ParserInterface $parser
+             */
+            $messages->addMessages($parser->run($location));
+        }
 
-        $input = new ArrayInput($arguments);
-        $returnCode = $command->run($input, $output);
+        $formatter = new ConsoleFormatter();
+        $formatter->format($messages->getMessages());
     }
 }

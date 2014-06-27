@@ -11,6 +11,7 @@ namespace PhpGrade\Commands;
 use PhpGrade\Config;
 use PhpGrade\Formatters\ConsoleFormatter;
 use PhpGrade\Message;
+use PhpGrade\Parsers\ParserInterface;
 use PhpGrade\Parsers\PhpCsParser;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
