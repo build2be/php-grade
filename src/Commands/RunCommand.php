@@ -26,6 +26,10 @@ class RunCommand extends BaseCommand
         $this
           ->setName('run')
           ->setDescription('Run all available grading types.')
+          ->addOption('tests','t',
+            InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+            'Test programs to run (all by default) options: phpcs, phpmd, phpdcd, phpcpd'
+          )
           ->addArgument(
             'location',
             InputArgument::REQUIRED,
@@ -53,12 +57,25 @@ class RunCommand extends BaseCommand
 
         $messages = new MessageList();
 
-        $parsers = array(
-            new PhpCsParser(),
-            new PhpMdParser(),
-            new PhpCpdParser(),
-            new PhpDcdParser(),
-        );
+        $tools = $input->getOption('tests');
+        if(empty($tools) || $tools === null){
+            $tools = array('all');
+        }
+
+        $parsers = array();
+        if(in_array('phpcs', $tools) || in_array('all', $tools)){
+            $parsers[] = new PhpCsParser();
+        }
+        if(in_array('phpmd', $tools) || in_array('all', $tools)){
+            $parsers[] = new PhpMdParser();
+        }
+        if(in_array('phpcpd', $tools) || in_array('all', $tools)){
+            $parsers[] = new PhpCpdParser();
+        }
+        if(in_array('phpdcd', $tools) || in_array('all', $tools)){
+            $parsers[] = new PhpDcdParser();
+        }
+
         foreach($parsers as $parser){
             /**
              * @var ParserInterface $parser

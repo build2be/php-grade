@@ -8,6 +8,4 @@ use Symfony\Component\Console\Application;
 $console = new Application("PHP Grade", "0.1");
 
 $console->add(new \PhpGrade\Commands\RunCommand());
-$console->add(new \PhpGrade\Commands\PhpCsCommand());
-$console->add(new \PhpGrade\Commands\PhpMdCommand());
 $console->run();
