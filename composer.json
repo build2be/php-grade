@@ -25,6 +25,7 @@
         "symfony/finder": "~2.5",
         "sebastian/phpcpd": "2.0.1",
         "sebastian/phpdcd": "1.0.2",
-        "symfony/yaml": "*"
+        "symfony/yaml": "*",
+        "sensiolabs/security-checker": "~1.3"
     }
 }
