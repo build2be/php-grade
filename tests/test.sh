@@ -1,3 +1,3 @@
 #!/bin/bash
 
-php bin/php-grade run src
+php bin/php-grade run .

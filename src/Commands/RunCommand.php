@@ -2,6 +2,7 @@
 
 namespace PhpGrade\Commands;
 
+use PhpGrade\Formatters\AngularFormatter;
 use PhpGrade\Formatters\ConsoleFormatter;
 use PhpGrade\Formatters\YamlFormatter;
 use PhpGrade\MessageList;
@@ -59,7 +60,7 @@ class RunCommand extends BaseCommand
 
 
         $finder = new Finder();
-        $finder->files()->in($location);
+        $finder->files()->in($location)->notPath("vendor");
 
         $messages = new MessageList();
 
@@ -104,6 +105,9 @@ class RunCommand extends BaseCommand
         }
         if($formatter == 'yaml'){
             $formatter = new YamlFormatter();
+        }
+        if($formatter == 'angular'){
+            $formatter = new AngularFormatter();
         }
         $formatter->format($messages->getMessages());
     }

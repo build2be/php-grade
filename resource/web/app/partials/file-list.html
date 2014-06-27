@@ -5,8 +5,8 @@
 <input type="text" name="search" id="search" class="form-control" ng-model="search">
 </div>
 <div class="list-group">
-  <a href="#/build/{{ sha1 }}/{{ file.hash }}" class="list-group-item" ng-repeat="file in files | filter: search">
+  <a href="#/file/{{ file.resource }}" class="list-group-item" ng-repeat="file in files | filter: search">
     <h4 class="list-group-item-heading">{{ file.filename }}</h4>
-    <p class="list-group-item-text">{{ file.hash }}</p>
+    <p class="list-group-item-text">{{ file.resource }}</p>
   </a>
 </div>
