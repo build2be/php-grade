@@ -37,10 +37,10 @@ class PhpCsParser extends BaseParser implements ParserInterface{
         /**
          * @var \SimpleXmlElement $file
          */
-        $file = $output->file;
         $result = array();
+        $file = $output->file;
         $config = new Config();
-        if($file->count() > 0) {
+        if($file !== null && $file->count() > 0) {
             foreach ($file->children() as $phpcsMessage) {
                 $messageObject = new Message('phpcs');
                 $lineNr = (int)$phpcsMessage['line'];

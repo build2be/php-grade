@@ -3,6 +3,7 @@
 namespace PhpGrade\Commands;
 
 use PhpGrade\Formatters\ConsoleFormatter;
+use PhpGrade\Formatters\YamlFormatter;
 use PhpGrade\MessageList;
 use PhpGrade\Parsers\ParserInterface;
 use PhpGrade\Parsers\PhpCpdParser;
@@ -53,7 +54,7 @@ class RunCommand extends BaseCommand
 
 
         $finder = new Finder();
-        $finder->files()->in($location);
+        $finder->files()->in($location)->name("*.php");
 
         $messages = new MessageList();
 
@@ -83,7 +84,7 @@ class RunCommand extends BaseCommand
             $parser->run($finder, $messages);
         }
 
-        $formatter = new ConsoleFormatter();
+        $formatter = new YamlFormatter();
         $formatter->format($messages->getMessages());
     }
 }
