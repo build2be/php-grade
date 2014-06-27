@@ -31,6 +31,10 @@ class RunCommand extends BaseCommand
             InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
             'Test programs to run (all by default) options: phpcs, phpmd, phpdcd, phpcpd'
           )
+          ->addOption('formatter', 'f',
+            InputOption::VALUE_REQUIRED,
+            'Set output formatter (console by default) options: console, yaml'
+          )
           ->addArgument(
             'location',
             InputArgument::REQUIRED,
@@ -84,7 +88,18 @@ class RunCommand extends BaseCommand
             $parser->run($finder, $messages);
         }
 
-        $formatter = new YamlFormatter();
+        if($input->getOption('formatter') === null){
+            $formatter = 'console';
+        }else{
+            $formatter = $input->getOption('formatter');
+        }
+
+        if($formatter == 'console'){
+            $formatter = new ConsoleFormatter();
+        }
+        if($formatter == 'yaml'){
+            $formatter = new YamlFormatter();
+        }
         $formatter->format($messages->getMessages());
     }
 }
