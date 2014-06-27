@@ -8,6 +8,10 @@
 
 namespace PhpGrade\Commands;
 
+use PhpGrade\Config;
+use PhpGrade\Formatters\ConsoleFormatter;
+use PhpGrade\Message;
+use PhpGrade\Parsers\PhpCsParser;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,25 +39,12 @@ class PhpCsCommand extends BaseCommand
         if (!file_exists($file)) {
             throw new \Exception("Location $file does not exists.");
         };
-        // phpcs --report=xml $1
-        $builder = $this->getBuilder('phpcs');
-        $builder->setArguments(array('--report=xml', $file));
 
-        echo $builder->getProcess()->getCommandLine() . PHP_EOL;
-        $process = new Process($builder->getProcess()->getCommandLine());
-        $process->run();
+        $parser = new PhpCsParser();
+        $messages = $parser->run($file);
 
-        // executes after the command finishes
-        //if (!$process->isSuccessful()) {
-        //  throw new \RuntimeException($process->getErrorOutput());
-        //}
-
-        print $process->getOutput();
-
+        $formatter = new ConsoleFormatter();
+        $formatter->format($messages);
     }
 
-    protected function parseOutput($output)
-    {
-
-    }
 }
