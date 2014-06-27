@@ -22,8 +22,7 @@
         "symfony/css-selector": "~2.5",
         "symfony/console": "~2.5",
         "symfony/process": "~2.5",
-        "symfony/process": "~2.5",
         "symfony/finder": "~2.5",
-        "symfony/css-selector": "~2.5"
+        "sebastian/phpcpd": "2.0.1"
     }
 }
