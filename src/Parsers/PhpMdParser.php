@@ -30,7 +30,6 @@ class PhpMdParser extends BaseParser implements ParserInterface
               )
             );
 
-            echo $builder->getProcess()->getCommandLine() . PHP_EOL;
             $process = new Process($builder->getProcess()->getCommandLine());
             $process->run();
 

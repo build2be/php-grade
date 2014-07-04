@@ -23,7 +23,6 @@ class PhpDependParser extends BaseParser implements ParserInterface
         $randomFile = microtime();
         $builder->setArguments(array('--summary-xml="/tmp/' . $randomFile . '"', $file));
 
-        echo $builder->getProcess()->getCommandLine() . PHP_EOL;
         $process = new Process($builder->getProcess()->getCommandLine());
         $process->run();
 

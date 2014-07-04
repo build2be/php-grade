@@ -25,7 +25,6 @@ class PhpCsParser extends BaseParser implements ParserInterface
             $builder = $this->getBuilder('phpcs');
             $builder->setArguments(array('--report=xml', $file));
 
-            echo $builder->getProcess()->getCommandLine() . PHP_EOL;
             $process = new Process($builder->getProcess()->getCommandLine());
             $process->run();
 
