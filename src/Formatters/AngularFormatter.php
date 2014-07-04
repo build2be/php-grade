@@ -57,6 +57,18 @@ class AngularFormatter extends BaseFormatter
             file_put_contents($jsonFileName, $json);
         }
         file_put_contents($tempDir . 'data/index.json', json_encode($index));
+
+        if($outputDir !== null){
+            $this->recurse_copy($tempDir, $outputDir);
+        }
+
+        if($serve){
+            if(substr($outputDir, -1) == '/'){
+                $outputDir = substr($outputDir, 0, -1);
+            }
+            rename($outputDir . '/index.htm', $outputDir . '/index.php');
+            exec('php -S localhost:8123 -t "' . $outputDir . '" ');
+        }
     }
 
     private function messageToArray(Message $message)
