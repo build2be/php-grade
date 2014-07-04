@@ -1,49 +1,86 @@
 <div class="panel panel-default">
-    <div ng-repeat="line in file" class="linecontainer">
+    <div class="panel-heading">
+        <a href="#/" class="btn btn-primary"><span class="glyphicon glyphicon-back"></span> Back</a>
+        {{ file.filename }}
+    </div>
+    <div ng-repeat="line in file.lines" class="linecontainer">
         <div class="linenr">{{ line.nr }}</div>
         <div class="line highlight" data-ng-bind-html="line.line+'&nbsp;'"></div>
         <br style="clear: both">
+
         <div class="linemessages" ng-show="line.msg">
-            <div class="well well-sm">
-            <div class="linemessage" ng-repeat="message in line.msg">
-                <small class="{{ message.level }}">{{ message.module }}</small> {{ message.message }}
-            </div>
+            <div ng-repeat="message in line.msg">
+                <div class="bs-callout"
+                     ng-class="{callout_info: message.level == 0,callout_warning: message.level == 1,callout_danger: message.level == 2}">
+                    <small class="{{ message.level }}">{{ message.module }}</small>
+                    {{ message.message }}
+                </div>
             </div>
         </div>
     </div>
 </div>
 <style>
-    .linecontainer{
+    .linecontainer {
     }
-    .linenr{
+
+    .linenr {
         width: 32px;
         float: left;
         font-family: monospace;
-        background: #DDD;
+        background: #EEE;
     }
-    .line{
+
+    .line {
         width: 1106px;
         float: right;
         font-family: monospace;
         white-space: pre;
-        background: #EEE;
+        background: #F8F8F8;
         padding-left: 4px;
     }
-    .linemessages{
-        border-left: 32px solid #DDD;
+
+    .linemessages {
+        border-left: 32px solid #EEE;
         padding-left: 4px;
         background: #EEE;
     }
-    .well{
+
+    .well {
         margin-bottom: 0 !important;
     }
-    .info{
-        color: blue;
+
+    /* Base styles (regardless of theme) */
+    .bs-callout {
+        padding: 15px 30px 15px 15px;
+        border-left: 5px solid #eee;
     }
-    .warning{
-        color: orange;
+
+    .bs-callout h4 {
+        margin-top: 0;
     }
-    .error{
-        color: red;
+
+    .bs-callout p:last-child {
+        margin-bottom: 0;
+    }
+
+    .bs-callout code,
+    .bs-callout .highlight {
+        background-color: #fff;
+    }
+
+    /* Themes for different contexts */
+    .callout_danger {
+        background-color: #fcf2f2;
+        border-color: #dFb5b4;
+    }
+
+    .callout_warning {
+        background-color: #fefbed;
+        border-color: #f1e7bc;
+    }
+
+    .callout_info {
+        background-color: #f0f7fd;
+        border-color: #d0e3f0;
     }
 </style>

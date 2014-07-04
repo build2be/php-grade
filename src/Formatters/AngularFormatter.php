@@ -27,6 +27,7 @@ class AngularFormatter extends BaseFormatter
                     $message = $this->messageToArray($message);
                 }
             }
+            $file = $this->mergeSourceCode($file, $filename);
             $json = json_encode($file);
             $jsonFileName = $tempDir . 'data/' . sha1($filename) . '.json';
             $index[] = array(
@@ -48,6 +49,24 @@ class AngularFormatter extends BaseFormatter
           'level' => $message->getErrorLevel(),
           'message' => $message->getMessage()
         );
+    }
+
+    private function mergeSourceCode(array $messages, $filename){
+        $source = file($filename);
+        $result = array();
+        foreach($source as $linenr => $line){
+            $line = htmlspecialchars($line);
+            $lineObj = array(
+                'nr' => $linenr + 1,
+                'line' => str_replace("\n", "", $line),
+                'msg' => array(),
+            );
+            if(isset($messages[$linenr])){
+                $lineObj['msg'] = $messages[$linenr];
+            }
+            $result[] = $lineObj;
+        }
+        return array('filename' => $filename, 'lines' => $result);
     }
 
     function recurse_copy($source, $dest)
