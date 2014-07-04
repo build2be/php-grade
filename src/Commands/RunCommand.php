@@ -35,7 +35,7 @@ class RunCommand extends BaseCommand
           )
           ->addOption('formatter', 'f',
             InputOption::VALUE_REQUIRED,
-            'Set output formatter (console by default) options: console, yaml'
+            'Set output formatter (console by default) options: console, yaml, angular'
           )
           ->addArgument(
             'location',
