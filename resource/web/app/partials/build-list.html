@@ -1,8 +1,0 @@
-<h1>Repository: {{ builds.repository }}</h1>
-<p>{{ builds.description }}</p>
-<div class="list-group">
-  <a href="#/build/{{ build.sha1 }}" class="list-group-item active" ng-repeat="build in builds.builds">
-    <h4 class="list-group-item-heading">{{ build.message }}</h4>
-    <p class="list-group-item-text">{{ build.sha1 }}</p>
-  </a>
-</div>
