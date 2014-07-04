@@ -24,6 +24,9 @@ PGradeControllers.controller('PGradeFileListCtrl', function ($scope, $http, $rou
     $scope.sha1 = $routeParams.sha1
     $http.get('data/index.json').success(function (data) {
         $scope.files = data;
+        $http.get('data/history.json').success(function (data) {
+
+        });
     });
 });
 PGradeControllers.controller('PGradeFileCtrl', function ($scope, $http, $routeParams) {

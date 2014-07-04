@@ -19,8 +19,12 @@ class AngularFormatter extends BaseFormatter
         $resourceRoot = $phpGradeRoot . 'resource/web/';
         $tempDir = $phpGradeRoot . 'tmp/';
         $this->recurse_copy($resourceRoot, $tempDir);
-        $index = array();
-
+        $index = array('files' => array());
+        $totalCounter = array(
+          'info' => 0,
+          'warning' => 0,
+          'error' => 0
+        );
         foreach ($messages as $filename => $file) {
             $counter = array(
                 'info' => 0,
@@ -43,10 +47,15 @@ class AngularFormatter extends BaseFormatter
                     }
                 }
             }
+
+            $totalCounter['info'] += $counter['info'];
+            $totalCounter['warning'] += $counter['warning'];
+            $totalCounter['error'] += $counter['error'];
+
             $file = $this->mergeSourceCode($file, $filename);
             $json = json_encode($file);
             $jsonFileName = $tempDir . 'data/' . sha1($filename) . '.json';
-            $index[] = array(
+            $index['files'][] = array(
               'resource' => sha1($filename) . '.json',
               'filename' => $filename,
               'messages' => $counter
@@ -56,19 +65,32 @@ class AngularFormatter extends BaseFormatter
             }
             file_put_contents($jsonFileName, $json);
         }
+
+        $index['counters'] = $totalCounter;
         file_put_contents($tempDir . 'data/index.json', json_encode($index));
 
+        if(substr($outputDir, -1) == '/'){
+            $outputDir = substr($outputDir, 0, -1);
+        }
+
         if($outputDir !== null){
+            if(file_exists($outputDir . '/data/history.json')){
+                $history = json_decode(file_get_contents($outputDir . '/data/history.json'), true);
+            }else{
+                $history = array();
+            }
+            $history[] = $index;
+            file_put_contents($tempDir . 'data/history.json', json_encode($history));
             $this->recurse_copy($tempDir, $outputDir);
         }
 
+        if($outputDir === null){
+            $outputDir = $tempDir;
+        }
+
         if($serve){
-            if($outputDir === null){
-                $outputDir = $tempDir;
-            }
-            if(substr($outputDir, -1) == '/'){
-                $outputDir = substr($outputDir, 0, -1);
-            }
+
+
             rename($outputDir . '/index.htm', $outputDir . '/index.php');
             echo "Starting built-in php server on http://localhost:8123/" . PHP_EOL;
             exec('php -S localhost:8123 -t "' . $outputDir . '" ');
@@ -93,8 +115,8 @@ class AngularFormatter extends BaseFormatter
                 'line' => str_replace("\n", "", $line),
                 'msg' => array(),
             );
-            if(isset($messages[$linenr])){
-                $lineObj['msg'] = $messages[$linenr];
+            if(isset($messages[$linenr + 1])){
+                $lineObj['msg'] = $messages[$linenr + 1];
             }
             $result[] = $lineObj;
         }

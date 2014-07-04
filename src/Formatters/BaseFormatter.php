@@ -11,6 +11,10 @@ namespace PhpGrade\Formatters;
 
 use PhpGrade\Message;
 
+/**
+ * Class BaseFormatter
+ * @package PhpGrade\Formatters
+ */
 class BaseFormatter
 {
     public function format($messages)
