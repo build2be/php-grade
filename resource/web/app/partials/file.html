@@ -12,7 +12,7 @@
             <div ng-repeat="message in line.msg">
                 <div class="bs-callout"
                      ng-class="{callout_info: message.level == 0,callout_warning: message.level == 1,callout_danger: message.level == 2}">
-                    <small class="{{ message.level }}">{{ message.module }}</small>
+                    <small>{{ message.tool }}</small>
                     {{ message.message }}
                 </div>
             </div>
