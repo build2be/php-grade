@@ -39,6 +39,18 @@ class RunCommand extends BaseCommand
             InputOption::VALUE_REQUIRED,
             'Set output formatter (console by default) options: console, yaml, angular'
           )
+          ->addOption(
+            'output',
+            'o',
+            InputOption::VALUE_REQUIRED,
+            'Output directory for angular formatter'
+          )
+          ->addOption(
+            'serve',
+            's',
+            InputOption::VALUE_NONE,
+            'Run PHP built-in webserver on the output directory for angular'
+          )
           ->addArgument(
             'location',
             InputArgument::REQUIRED,
@@ -110,7 +122,10 @@ class RunCommand extends BaseCommand
         }
         if ($formatter == 'angular') {
             $formatter = new AngularFormatter();
+            $formatter->format($messages->getMessages(), $input->getOption('output'), $input->getOption('serve'));
+        }else{
+            $formatter->format($messages->getMessages());
         }
-        $formatter->format($messages->getMessages());
+
     }
 }

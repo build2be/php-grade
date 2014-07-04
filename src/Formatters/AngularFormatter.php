@@ -13,7 +13,7 @@ use PhpGrade\Message;
 
 class AngularFormatter extends BaseFormatter
 {
-    public function format($messages)
+    public function format($messages, $outputDir = null, $serve = false)
     {
         $phpGradeRoot = __DIR__ . '/../../';
         $resourceRoot = $phpGradeRoot . 'resource/web/';
