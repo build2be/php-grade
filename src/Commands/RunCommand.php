@@ -12,12 +12,10 @@ use PhpGrade\Parsers\PhpCsParser;
 use PhpGrade\Parsers\PhpDcdParser;
 use PhpGrade\Parsers\PhpMdParser;
 use PhpGrade\Parsers\PhpSecurityParser;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Finder\Finder;
 
 
