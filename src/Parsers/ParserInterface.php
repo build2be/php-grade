@@ -12,6 +12,7 @@ namespace PhpGrade\Parsers;
 use PhpGrade\MessageList;
 use Symfony\Component\Finder\Finder;
 
-interface ParserInterface {
+interface ParserInterface
+{
     public function run(Finder $iterator, MessageList &$messageList);
 } 

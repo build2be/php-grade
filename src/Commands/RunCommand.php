@@ -27,11 +27,15 @@ class RunCommand extends BaseCommand
         $this
           ->setName('run')
           ->setDescription('Run all available grading types.')
-          ->addOption('tests','t',
+          ->addOption(
+            'tests',
+            't',
             InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
             'Test programs to run (all by default) options: phpcs, phpmd, phpdcd, phpcpd'
           )
-          ->addOption('formatter', 'f',
+          ->addOption(
+            'formatter',
+            'f',
             InputOption::VALUE_REQUIRED,
             'Set output formatter (console by default) options: console, yaml, angular'
           )
@@ -63,28 +67,28 @@ class RunCommand extends BaseCommand
         $messages = new MessageList();
 
         $tools = $input->getOption('tests');
-        if(empty($tools) || $tools === null){
+        if (empty($tools) || $tools === null) {
             $tools = array('all');
         }
 
         $parsers = array();
-        if(in_array('phpcs', $tools) || in_array('all', $tools)){
+        if (in_array('phpcs', $tools) || in_array('all', $tools)) {
             $parsers[] = new PhpCsParser();
         }
-        if(in_array('phpmd', $tools) || in_array('all', $tools)){
+        if (in_array('phpmd', $tools) || in_array('all', $tools)) {
             $parsers[] = new PhpMdParser();
         }
-        if(in_array('phpcpd', $tools) || in_array('all', $tools)){
+        if (in_array('phpcpd', $tools) || in_array('all', $tools)) {
             $parsers[] = new PhpCpdParser();
         }
-        if(in_array('phpdcd', $tools) || in_array('all', $tools)){
+        if (in_array('phpdcd', $tools) || in_array('all', $tools)) {
             $parsers[] = new PhpDcdParser();
         }
-        if(in_array('security', $tools) || in_array('all', $tools)){
+        if (in_array('security', $tools) || in_array('all', $tools)) {
             $parsers[] = new PhpSecurityParser();
         }
 
-        foreach($parsers as $parser){
+        foreach ($parsers as $parser) {
             /**
              * @var ParserInterface $parser
              */
@@ -92,19 +96,19 @@ class RunCommand extends BaseCommand
             $parser->run($finderInstance, $messages);
         }
 
-        if($input->getOption('formatter') === null){
+        if ($input->getOption('formatter') === null) {
             $formatter = 'console';
-        }else{
+        } else {
             $formatter = $input->getOption('formatter');
         }
 
-        if($formatter == 'console'){
+        if ($formatter == 'console') {
             $formatter = new ConsoleFormatter();
         }
-        if($formatter == 'yaml'){
+        if ($formatter == 'yaml') {
             $formatter = new YamlFormatter();
         }
-        if($formatter == 'angular'){
+        if ($formatter == 'angular') {
             $formatter = new AngularFormatter();
         }
         $formatter->format($messages->getMessages());

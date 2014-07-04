@@ -13,9 +13,11 @@ use PhpGrade\Config;
 use PhpGrade\Message;
 use Symfony\Component\Process\Process;
 
-class PhpDependParser extends BaseParser implements ParserInterface{
+class PhpDependParser extends BaseParser implements ParserInterface
+{
 
-    public function run($file){
+    public function run($file)
+    {
         // pdepend --summary-xml=$2 $1
         $builder = $this->getBuilder('pdepend');
         $randomFile = microtime();
@@ -45,18 +47,18 @@ class PhpDependParser extends BaseParser implements ParserInterface{
          * @var \SimpleXmlElement $method
          */
         $packages = $output->package;
-        foreach($packages as $namespace){
-            foreach($namespace->children() as $node){
-                $type = (string) $node->getName();
-                if($type == 'function'){
+        foreach ($packages as $namespace) {
+            foreach ($namespace->children() as $node) {
+                $type = (string)$node->getName();
+                if ($type == 'function') {
                     $nodePath = $namespace['name'] . '/' . $node['name'];
                     $this->parseFunction($nodePath, $node);
                 }
 
-                if($type == 'class'){
+                if ($type == 'class') {
                     $nodePath = $namespace['name'] . '/' . $node['name'];
-                    foreach($node->children() as $method){
-                        if($method->getName() == 'method'){
+                    foreach ($node->children() as $method) {
+                        if ($method->getName() == 'method') {
                             $nodePath .= '/' . $method['name'];
                             $this->parseFunction($nodePath, $method);
                         }
@@ -66,21 +68,20 @@ class PhpDependParser extends BaseParser implements ParserInterface{
         }
         $result = array();
         $config = new Config();
-        foreach($package->children() as $class){
-
+        foreach ($package->children() as $class) {
 
 
             $messageObject = new Message('phpcs');
-            $lineNr = (int) $phpcsMessage['line'];
+            $lineNr = (int)$phpcsMessage['line'];
             $messageObject->setLine($lineNr);
-            $messageObject->setMessage((string) $phpcsMessage);
+            $messageObject->setMessage((string)$phpcsMessage);
 
-            $severity = (int) $phpcsMessage['severity'];
+            $severity = (int)$phpcsMessage['severity'];
             $errorLevel = Message::LEVEL_INFO;
-            if($severity >= $config->getPhpcsWarningLevel()){
+            if ($severity >= $config->getPhpcsWarningLevel()) {
                 $errorLevel = Message::LEVEL_WARNING;
             }
-            if($severity >= $config->getPhpcsErrorLevel()){
+            if ($severity >= $config->getPhpcsErrorLevel()) {
                 $errorLevel = Message::LEVEL_ERROR;
             }
             $messageObject->setErrorLevel($errorLevel);

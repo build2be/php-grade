@@ -17,22 +17,26 @@ use SebastianBergmann\PHPCPD\Detector\Strategy\DefaultStrategy;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
-class PhpCpdParser extends BaseParser implements ParserInterface{
+class PhpCpdParser extends BaseParser implements ParserInterface
+{
 
-    public function run(Finder $iterator, MessageList &$messageList){
+    public function run(Finder $iterator, MessageList &$messageList)
+    {
         $detector = new Detector(new DefaultStrategy(), null);
         $config = new Config();
-        $clones = $detector->copyPasteDetection($iterator->name("*.php"),
+        $clones = $detector->copyPasteDetection(
+          $iterator->name("*.php"),
           $config->getPhpcpdMinLines(),
           $config->getPhpcpdMinTokens(),
-          $config->isPhpcpdFuzzyVariableMatching());
+          $config->isPhpcpdFuzzyVariableMatching()
+        );
 
-        if(count($clones) == 0){
+        if (count($clones) == 0) {
             return null;
         }
-        foreach($clones as $clone){
-            foreach($clone->getFiles() as $file){
-                $filename = (string) $file->getName();
+        foreach ($clones as $clone) {
+            foreach ($clone->getFiles() as $file) {
+                $filename = (string)$file->getName();
                 $lineNo = $file->getStartLine();
                 $messageObject = new Message('phpcpd');
                 $messageObject->setLine($lineNo);

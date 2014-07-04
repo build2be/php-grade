@@ -11,7 +11,8 @@ namespace PhpGrade\Parsers;
 
 use Symfony\Component\Process\ProcessBuilder;
 
-class BaseParser {
+class BaseParser
+{
     protected function getBuilder($prefix)
     {
         $builder = new ProcessBuilder();

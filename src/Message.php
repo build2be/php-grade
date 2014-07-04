@@ -3,7 +3,8 @@
 namespace PhpGrade;
 
 
-class Message {
+class Message
+{
     private $message;
     private $errorLevel;
     private $line;
@@ -53,10 +54,10 @@ class Message {
     /**
      * @return mixed
      */
-    public function getErrorLevel($asString=false)
+    public function getErrorLevel($asString = false)
     {
-        if($asString){
-            switch($this->errorLevel){
+        if ($asString) {
+            switch ($this->errorLevel) {
                 case Message::LEVEL_INFO:
                     return 'Info';
                 case Message::LEVEL_WARNING:
@@ -64,7 +65,7 @@ class Message {
                 case Message::LEVEL_ERROR:
                     return 'Error';
             }
-        }else{
+        } else {
             return $this->errorLevel;
         }
     }

@@ -9,7 +9,8 @@
 namespace PhpGrade;
 
 
-class Config {
+class Config
+{
     private $phpcsWarningLevel = 5;
     private $phpcsErrorLevel = 5;
 

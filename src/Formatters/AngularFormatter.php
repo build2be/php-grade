@@ -30,11 +30,11 @@ class AngularFormatter extends BaseFormatter
             $json = json_encode($file);
             $jsonFileName = $tempDir . 'data/' . sha1($filename) . '.json';
             $index[] = array(
-                'resource' => sha1($filename) . '.json',
-                'filename' => $filename
+              'resource' => sha1($filename) . '.json',
+              'filename' => $filename
             );
-            if(!is_dir(dirname($jsonFileName))){
-                mkdir(dirname($jsonFileName),0777,true);
+            if (!is_dir(dirname($jsonFileName))) {
+                mkdir(dirname($jsonFileName), 0777, true);
             }
             file_put_contents($jsonFileName, $json);
         }

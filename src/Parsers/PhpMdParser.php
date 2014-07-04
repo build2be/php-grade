@@ -15,12 +15,15 @@ use PhpGrade\MessageList;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
-class PhpMdParser extends BaseParser implements ParserInterface{
+class PhpMdParser extends BaseParser implements ParserInterface
+{
 
-    public function run(Finder $iterator, MessageList &$messageList){
-        foreach($iterator->name("*.php") as $file){
+    public function run(Finder $iterator, MessageList &$messageList)
+    {
+        foreach ($iterator->name("*.php") as $file) {
             $builder = $this->getBuilder('phpmd');
-            $builder->setArguments(array(
+            $builder->setArguments(
+              array(
                 $file,
                 'xml',
                 'cleancode,codesize,controversial,design,naming,unusedcode',
@@ -32,7 +35,7 @@ class PhpMdParser extends BaseParser implements ParserInterface{
             $process->run();
 
             $output = $process->getOutput();
-            $messageList->addMessages((string) $file, $this->parseOutput($output));
+            $messageList->addMessages((string)$file, $this->parseOutput($output));
         }
     }
 
@@ -46,7 +49,7 @@ class PhpMdParser extends BaseParser implements ParserInterface{
         $file = $output->file;
         $result = array();
         $config = new Config();
-        if($file->count() > 0) {
+        if ($file->count() > 0) {
             foreach ($file->children() as $phpmdMessage) {
                 $messageObject = new Message('phpmd');
                 $lineNr = (int)$phpmdMessage['beginline'];
