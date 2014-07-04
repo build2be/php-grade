@@ -63,6 +63,9 @@ class AngularFormatter extends BaseFormatter
         }
 
         if($serve){
+            if($outputDir === null){
+                $outputDir = $tempDir;
+            }
             if(substr($outputDir, -1) == '/'){
                 $outputDir = substr($outputDir, 0, -1);
             }
@@ -85,7 +88,6 @@ class AngularFormatter extends BaseFormatter
         $source = file($filename);
         $result = array();
         foreach($source as $linenr => $line){
-            $line = htmlspecialchars($line);
             $lineObj = array(
                 'nr' => $linenr + 1,
                 'line' => str_replace("\n", "", $line),
