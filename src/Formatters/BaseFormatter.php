@@ -9,6 +9,8 @@
 namespace PhpGrade\Formatters;
 
 
+use PhpGrade\Message;
+
 class BaseFormatter {
     public function format($messages){
         foreach($messages as $filename => $file){
@@ -28,7 +30,7 @@ class BaseFormatter {
         }
     }
 
-    protected function formatMessage($message){
+    protected function formatMessage(Message $message){
         return print_r($message, true);
     }
 } 
