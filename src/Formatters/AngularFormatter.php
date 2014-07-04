@@ -67,6 +67,7 @@ class AngularFormatter extends BaseFormatter
                 $outputDir = substr($outputDir, 0, -1);
             }
             rename($outputDir . '/index.htm', $outputDir . '/index.php');
+            echo "Starting built-in php server on http://localhost:8123/" . PHP_EOL;
             exec('php -S localhost:8123 -t "' . $outputDir . '" ');
         }
     }
