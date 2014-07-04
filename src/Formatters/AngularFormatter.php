@@ -22,9 +22,25 @@ class AngularFormatter extends BaseFormatter
         $index = array();
 
         foreach ($messages as $filename => $file) {
+            $counter = array(
+                'info' => 0,
+                'warning' => 0,
+                'error' => 0
+            );
             foreach ($file as &$line) {
                 foreach ($line as &$message) {
                     $message = $this->messageToArray($message);
+                    switch($message['level']){
+                        case Message::LEVEL_INFO:
+                            $counter['info']++;
+                            break;
+                        case Message::LEVEL_WARNING:
+                            $counter['warning']++;
+                            break;
+                        case Message::LEVEL_ERROR:
+                            $counter['error']++;
+                            break;
+                    }
                 }
             }
             $file = $this->mergeSourceCode($file, $filename);
@@ -32,7 +48,8 @@ class AngularFormatter extends BaseFormatter
             $jsonFileName = $tempDir . 'data/' . sha1($filename) . '.json';
             $index[] = array(
               'resource' => sha1($filename) . '.json',
-              'filename' => $filename
+              'filename' => $filename,
+              'messages' => $counter
             );
             if (!is_dir(dirname($jsonFileName))) {
                 mkdir(dirname($jsonFileName), 0777, true);
