@@ -31,30 +31,30 @@ class RunCommand extends BaseCommand
             'tests',
             't',
             InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-            'Test programs to run (all by default) options: phpcs, phpmd, phpdcd, phpcpd'
+            'Test programs to run (all by default) options: phpcs, phpmd, phpdcd, phpcpd.'
           )
           ->addOption(
             'formatter',
             'f',
             InputOption::VALUE_REQUIRED,
-            'Set output formatter (console by default) options: console, yaml, angular'
+            'Set output formatter (console by default) options: console, yaml, angular.'
           )
           ->addOption(
             'output',
             'o',
             InputOption::VALUE_REQUIRED,
-            'Output directory for angular formatter'
+            'Output directory for angular formatter.'
           )
           ->addOption(
             'serve',
             's',
             InputOption::VALUE_NONE,
-            'Run PHP built-in webserver on the output directory for angular'
+            'Run PHP built-in webserver on the output directory for angular.'
           )
           ->addArgument(
             'location',
             InputArgument::REQUIRED,
-            'Location to grade. This can be a file or directory'
+            'Location to grade. This can be a file or directory.'
           );
     }
 
