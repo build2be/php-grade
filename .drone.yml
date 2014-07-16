@@ -9,5 +9,6 @@ notify:
 deploy:
   bash:
     script:
+      - cd /home/ubuntu/pkg && git add --all
       - cd /home/ubuntu/pkg && git commit -am "Grade result updated"
       - cd /home/ubuntu/pkg && git push
