@@ -1,5 +1,6 @@
 image: build2be/phpgrade
 script:
+  - echo "test"
   - php-grade
 notify:
   email:
