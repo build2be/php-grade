@@ -18,7 +18,10 @@ class AngularFormatter extends BaseFormatter
         $phpGradeRoot = __DIR__ . '/../../';
         $resourceRoot = $phpGradeRoot . 'resource/web/';
         $tempDir = $phpGradeRoot . 'tmp/';
+        $this->ensure_directory($tempDir);
         $this->recurse_copy($resourceRoot, $tempDir);
+        $this->ensure_directory($tempDir . 'data/');
+
         $index = array('files' => array());
         $totalCounter = array(
           'info' => 0,
@@ -158,6 +161,12 @@ class AngularFormatter extends BaseFormatter
         // Clean up
         $dir->close();
         return true;
+    }
+
+    private function ensure_directory($path){
+        if(!is_dir($path)){
+            mkdir($path, 0777, true);
+        }
     }
 
 
