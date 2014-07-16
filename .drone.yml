@@ -1,0 +1,7 @@
+image: build2be/phpgrade
+script:
+  - php-grade
+notify:
+  email:
+    recipients:
+      - martijn@brixit.nl
