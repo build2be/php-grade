@@ -77,12 +77,12 @@ class AngularFormatter extends BaseFormatter
         }
 
         if($outputDir !== null){
-            echo $outputDir . '/data/history.json';
+            echo $outputDir . '/data/history.json' . PHP_EOL;
             if(file_exists($outputDir . '/data/history.json')){
-                echo 'history loaded';
+                echo 'Loading history.' . PHP_EOL;
                 $history = json_decode(file_get_contents($outputDir . '/data/history.json'), true);
             }else{
-                echo 'history defined';
+                echo 'Empty history initialised.' . PHP_EOL;
                 $history = array();
             }
             $history[] = $index;
@@ -95,8 +95,6 @@ class AngularFormatter extends BaseFormatter
         }
 
         if($serve){
-
-
             rename($outputDir . '/index.htm', $outputDir . '/index.php');
             echo "Starting built-in php server on http://localhost:8123/" . PHP_EOL;
             exec('php -S localhost:8123 -t "' . $outputDir . '" ');
