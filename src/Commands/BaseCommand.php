@@ -3,7 +3,6 @@
 namespace PhpGrade\Commands;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Process\ProcessBuilder;
 
 class BaseCommand extends Command
 {
