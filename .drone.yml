@@ -1,6 +1,6 @@
 image: drone/phpgrade:latest
 script:
-  - php-grade run -f angular -t phpcs -t phpmd -t phpcpd -o /home/ubuntu/pkg /home/ubuntu/src
+  - php-grade run -f angular -t phpcs -t phpmd -o /home/ubuntu/pkg /home/ubuntu/src
 notify:
   email:
     recipients:
