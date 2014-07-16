@@ -74,9 +74,12 @@ class AngularFormatter extends BaseFormatter
         }
 
         if($outputDir !== null){
+            echo $outputDir . '/data/history.json';
             if(file_exists($outputDir . '/data/history.json')){
+                echo 'history loaded';
                 $history = json_decode(file_get_contents($outputDir . '/data/history.json'), true);
             }else{
+                echo 'history defined';
                 $history = array();
             }
             $history[] = $index;

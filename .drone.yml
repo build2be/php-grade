@@ -1,4 +1,4 @@
-image: build2be/phpgrade
+image: drone/phpgrade
 script:
   - echo "test"
   - php-grade

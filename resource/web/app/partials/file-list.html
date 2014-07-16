@@ -18,6 +18,9 @@
                 <span class="count-block" ng-class="{'text-danger': file.messages.error}">
                     <span class="glyphicon glyphicon-remove-sign"></span> {{ file.messages.error }}
                 </span>
+                <span data-ng-bind-html="{{ historyDelta(history[file.filename]) }}"></span>
+
+
             </p>
           </a>
         </div>
