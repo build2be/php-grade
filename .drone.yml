@@ -1,6 +1,6 @@
 image: drone/phpgrade
 script:
-  - echo "test"
+  - echo "-- test --"
   - php-grade
 notify:
   email:
