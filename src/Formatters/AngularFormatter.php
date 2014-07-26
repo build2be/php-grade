@@ -13,7 +13,9 @@ use PhpGrade\Message;
 
 class AngularFormatter extends BaseFormatter
 {
-    public function format($messages, $outputDir = null, $serve = false)
+    var $runServer = false;
+
+    public function format($messages)
     {
         $phpGradeRoot = __DIR__ . '/../../';
         $resourceRoot = $phpGradeRoot . 'resource/web/';
@@ -72,17 +74,17 @@ class AngularFormatter extends BaseFormatter
         $index['counters'] = $totalCounter;
         file_put_contents($tempDir . 'data/index.json', json_encode($index));
 
+        $outputDir = $this->getOutputDir();
         if(substr($outputDir, -1) == '/'){
             $outputDir = substr($outputDir, 0, -1);
         }
 
         if($outputDir !== null){
-            echo $outputDir . '/data/history.json' . PHP_EOL;
             if(file_exists($outputDir . '/data/history.json')){
-                echo 'Loading history.' . PHP_EOL;
+                $this->getOutput()->writeln('Loading history.');
                 $history = json_decode(file_get_contents($outputDir . '/data/history.json'), true);
             }else{
-                echo 'Empty history initialised.' . PHP_EOL;
+                $this->getOutput()->writeln('Empty history initialised: ' . $outputDir . '/data/history.json');
                 $history = array();
             }
             $history[] = $index;
@@ -94,10 +96,11 @@ class AngularFormatter extends BaseFormatter
             $outputDir = $tempDir;
         }
 
-        if($serve){
+        if ($this->isRunServer()) {
             rename($outputDir . '/index.htm', $outputDir . '/index.php');
-            echo "Starting built-in php server on http://localhost:8123/" . PHP_EOL;
-            exec('php -S localhost:8123 -t "' . $outputDir . '" ');
+            $server = "localhost:8123";
+            $this->getOutput()->writeln("Starting built-in php server on http://$server");
+            exec('php -S ' . $server . ' -t "' . $outputDir . '"');
         }
     }
 
@@ -167,5 +170,18 @@ class AngularFormatter extends BaseFormatter
         }
     }
 
+    /**
+     * @return boolean
+     */
+    public function isRunServer() {
+        return $this->runServer;
+    }
 
-} 
+    /**
+     * @param boolean $runServer
+     */
+    public function setRunServer($runServer) {
+        $this->runServer = $runServer;
+    }
+
+}

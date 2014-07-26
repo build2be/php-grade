@@ -139,15 +139,20 @@ class RunCommand extends BaseCommand
              $output->writeln("Created temporary '--output-dir' directory as none given: " . $outputDir);
            }
         }
+        if ($format == 'angular') {
+          $formatter = new AngularFormatter();
+          $formatter->setRunServer(true);
+        }
+
+        $formatter->setOutput($output);
 
         if ($input->getOption('verbose')) {
             $output->writeln("Output dir: $outputDir");
             $output->writeln("Format    : $format");
         }
 
-        if ($formatter == 'angular') {
-            $formatter = new AngularFormatter();
-            $formatter->format($messages->getMessages(), $output, $serve);
+        if ($format == 'angular') {
+            $formatter->format($messages->getMessages());
         }else{
             $formatter->format($messages->getMessages());
         }

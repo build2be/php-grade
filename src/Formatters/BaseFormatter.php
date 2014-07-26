@@ -10,6 +10,7 @@ namespace PhpGrade\Formatters;
 
 
 use PhpGrade\Message;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class BaseFormatter
@@ -17,6 +18,12 @@ use PhpGrade\Message;
  */
 class BaseFormatter
 {
+    /* @var string $outputDir */
+    var $outputDir;
+
+    /** @var OutputInterface $output */
+    var $output = null;
+
     public function format($messages)
     {
         foreach ($messages as $filename => $file) {
@@ -42,4 +49,32 @@ class BaseFormatter
     {
         return print_r($message, true);
     }
-} 
+
+    /**
+     * @return string
+     */
+    public function getOutputDir() {
+        return $this->outputDir;
+    }
+
+    /**
+     * @param string $outputDir
+     */
+    public function setOutputDir($outputDir) {
+        $this->outputDir = $outputDir;
+    }
+
+    /**
+     * @return OutputInterface
+     */
+    public function getOutput() {
+       return $this->output;
+    }
+
+    /**
+     * @param OutputInterface $output
+     */
+    public function setOutput($output) {
+        $this->output = $output;
+    }
+}
