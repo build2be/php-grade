@@ -34,13 +34,14 @@ class RunCommand extends BaseCommand
             'Test programs to run (all by default) options: phpcs, phpmd, phpdcd, phpcpd.'
           )
           ->addOption(
-            'formatter',
+            'format',
             'f',
             InputOption::VALUE_REQUIRED,
-            'Set output formatter (console by default) options: console, yaml, angular.'
+            'Set output formatter (console by default) options: console, yaml, angular.',
+            'console'
           )
           ->addOption(
-            'output',
+            'output-dir',
             'o',
             InputOption::VALUE_REQUIRED,
             'Output directory for angular formatter.'
@@ -56,12 +57,7 @@ class RunCommand extends BaseCommand
             InputArgument::REQUIRED,
             'Location to grade. This can be a file or directory.'
           )
-          ->addArgument(
-            'verbose',
-            InputArgument::OPTIONAL,
-            'Show verbose information.'
-          );
-
+        ;
     }
 
     /**
@@ -115,20 +111,16 @@ class RunCommand extends BaseCommand
             $parser->run($finderInstance, $messages);
         }
 
-        if ($input->getOption('formatter') === null) {
-            $formatter = 'console';
-        } else {
-            $formatter = $input->getOption('formatter');
-        }
+        $outputDir = $input->getOption('output-dir');
+        $serve = $input->getOption('serve');
+        $format = $input->getOption('format');
 
-        if ($formatter == 'console') {
+        if ($format == 'console') {
             $formatter = new ConsoleFormatter();
         }
-        if ($formatter == 'yaml') {
+        else if ($format == 'yaml') {
             $formatter = new YamlFormatter();
         }
-        $output = $input->getOption('output');
-        $serve = $input->getOption('serve');
 
         if (!is_null($serve)) {
            $formatter = 'angular';
