@@ -62,6 +62,10 @@ class RunCommand extends BaseCommand
 
     /**
      * Run all available grading (sub) commands
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -92,6 +96,7 @@ class RunCommand extends BaseCommand
             $parsers['security'] = new PhpSecurityParser();
         }
 
+
         $finder = new Finder();
 
         // Skip vendor directories
@@ -107,9 +112,6 @@ class RunCommand extends BaseCommand
           $output->writeln("Running parser: " . $key);
             /* @var Finder $finderInstance */
             $finderInstance = clone $finder;
-            /**
-             * @var ParserInterface $parser
-             */
             $parser->run($finderInstance, $messages);
         }
 
