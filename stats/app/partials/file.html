@@ -1,0 +1,90 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a href="#/" class="btn btn-primary btn-small"><span class="glyphicon glyphicon-back"></span> Back</a>
+        {{ file.filename }}
+    </div>
+    <div ng-repeat="line in file.lines" class="linecontainer">
+        <div class="linenr">{{ line.nr }}</div>
+        <div class="line highlight" data-ng-bind-html="line.line+'&nbsp;'"></div>
+        <br style="clear: both">
+
+        <div class="linemessages" ng-show="line.msg">
+            <div ng-repeat="message in line.msg">
+                <div class="bs-callout"
+                     ng-class="{callout_info: message.level == 0,callout_warning: message.level == 1,callout_danger: message.level == 2}">
+                    <small>{{ message.tool }}</small>
+                    {{ message.message }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .linecontainer {
+    }
+
+    .linenr {
+        width: 32px;
+        float: left;
+        font-family: monospace;
+        background: #FFF;
+        text-align: right;
+        padding-right: 5px;
+        border-right: 1px solid #e5e5e5;
+    }
+
+    .line {
+        width: 1106px;
+        float: right;
+        font-family: monospace;
+        white-space: pre;
+        background: #FFF;
+        padding-left: 4px;
+    }
+
+    .linemessages {
+        margin-left: 31px;
+        border-left: 1px solid #e5e5e5;
+        padding-left: 4px;
+        background: #FFF;
+    }
+
+    .well {
+        margin-bottom: 0 !important;
+    }
+
+    /* Base styles (regardless of theme) */
+    .bs-callout {
+        padding: 15px 30px 15px 15px;
+        border-left: 5px solid #eee;
+    }
+
+    .bs-callout h4 {
+        margin-top: 0;
+    }
+
+    .bs-callout p:last-child {
+        margin-bottom: 0;
+    }
+
+    .bs-callout code,
+    .bs-callout .highlight {
+        background-color: #fff;
+    }
+
+    /* Themes for different contexts */
+    .callout_danger {
+        background-color: #fcf2f2;
+        border-color: #dFb5b4;
+    }
+
+    .callout_warning {
+        background-color: #fefbed;
+        border-color: #f1e7bc;
+    }
+
+    .callout_info {
+        background-color: #f0f7fd;
+        border-color: #d0e3f0;
+    }
+</style>

@@ -1,0 +1,34 @@
+<div class="panel panel-default">
+    <div class="panel-heading">File list</div>
+    <div class="panel-body">
+        <div class="form-group">
+        <label for="search">Filter</label>
+        <input type="text" name="search" id="search" class="form-control" ng-model="search">
+        </div>
+        <div class="list-group">
+          <a href="#/file/{{ file.resource }}" class="list-group-item" ng-repeat="file in files.files | filter: search">
+            <h4 class="list-group-item-heading">{{ file.filename }}</h4>
+            <p class="list-group-item-text">
+                <span class="count-block" ng-class="{'text-info': file.messages.info}">
+                    <span class="glyphicon glyphicon-info-sign"></span> {{ file.messages.info }}
+                </span>
+                <span class="count-block" ng-class="{'text-warning': file.messages.warning}">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span> {{ file.messages.warning }}
+                </span>
+                <span class="count-block" ng-class="{'text-danger': file.messages.error}">
+                    <span class="glyphicon glyphicon-remove-sign"></span> {{ file.messages.error }}
+                </span>
+                <span data-ng-bind-html="{{ historyDelta(history[file.filename]) }}"></span>
+
+
+            </p>
+          </a>
+        </div>
+    </div>
+</div>
+<style>
+    .count-block{
+        display: inline-block;
+        width: 50px;
+    }
+</style>
