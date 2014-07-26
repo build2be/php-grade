@@ -124,22 +124,23 @@ class RunCommand extends BaseCommand
             $formatter = new YamlFormatter();
         }
 
-        if (!is_null($serve)) {
-           $formatter = 'angular';
-           if (is_null($output)) {
+        if ($serve) {
+          $output->writeln("Setting '--format' to angular");
+           $format = 'angular';
+           if (is_null($outputDir)) {
              $tempfile=tempnam(sys_get_temp_dir(),'phpgrade-');
              if (file_exists($tempfile)) {
                unlink($tempfile);
              }
              mkdir($tempfile);
-             $output = $tempfile;
+             $outputDir = $tempfile;
+             $output->writeln("Created temporary '--output-dir' directory as none given: " . $outputDir);
            }
         }
 
         if ($input->getOption('verbose')) {
-            echo "Serve : $serve" . PHP_EOL;
-            echo "Output dir: $output" . PHP_EOL;
-            echo "Format: $formatter" . PHP_EOL;
+            $output->writeln("Output dir: $outputDir");
+            $output->writeln("Format    : $format");
         }
 
         if ($formatter == 'angular') {
