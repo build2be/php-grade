@@ -118,7 +118,7 @@ class RunCommand extends BaseCommand
         $outputDir = $input->getOption('output-dir');
         $serve = $input->getOption('serve');
         $format = $input->getOption('format');
-        $this->log($output, "Verbose level - " . $output->getVerbosity()." -");
+        $this->log($output, "Verbose level - " . $output->getVerbosity()." -", 2);
         if ($format == 'console') {
             $formatter = new ConsoleFormatter();
         }
