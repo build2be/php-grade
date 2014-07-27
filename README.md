@@ -32,6 +32,16 @@ bin/php-grade run \
   src
 ```
 
-## Visit stats
+## What we do
+
+We run each of the tests individual with a watch tool.
+
+```bash
+watch bin/php-grade run bin/ --tests=phpcs
+```
+
+This shows you the toplevel lines to fix the first lines.
+
+## Our gradings
 
 http://build2be.github.io/php-grade/stats/
