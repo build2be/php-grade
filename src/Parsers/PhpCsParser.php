@@ -23,7 +23,12 @@ class PhpCsParser extends BaseParser implements ParserInterface
         $iterator = $iterator->name("*.php");
         foreach ($iterator as $file) {
             $builder = $this->getBuilder('phpcs');
-            $builder->setArguments(array('--report=xml', $file));
+            $args = array(
+              "--standard=PSR2",
+              '--report=xml',
+              $file,
+            );
+            $builder->setArguments($args);
 
             $process = new Process($builder->getProcess()->getCommandLine());
             $process->run();
