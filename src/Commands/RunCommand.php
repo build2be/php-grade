@@ -18,7 +18,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
-
 class RunCommand extends BaseCommand
 {
 
@@ -28,36 +27,35 @@ class RunCommand extends BaseCommand
           ->setName('run')
           ->setDescription('Run all available grading types.')
           ->addOption(
-            'tests',
-            't',
-            InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
-            'Test programs to run (all by default) options: phpcs, phpmd, phpdcd, phpcpd.'
+              'tests',
+              't',
+              InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+              'Test programs to run (all by default) options: phpcs, phpmd, phpdcd, phpcpd.'
           )
           ->addOption(
-            'format',
-            'f',
-            InputOption::VALUE_REQUIRED,
-            'Set output formatter (console by default) options: console, yaml, angular.',
-            'console'
+              'format',
+              'f',
+              InputOption::VALUE_REQUIRED,
+              'Set output formatter (console by default) options: console, yaml, angular.',
+              'console'
           )
           ->addOption(
-            'output-dir',
-            'o',
-            InputOption::VALUE_REQUIRED,
-            'Output directory for angular formatter.'
+              'output-dir',
+              'o',
+              InputOption::VALUE_REQUIRED,
+              'Output directory for angular formatter.'
           )
           ->addOption(
-            'serve',
-            's',
-            InputOption::VALUE_NONE,
-            'Run PHP built-in webserver on the output directory for angular.'
+              'serve',
+              's',
+              InputOption::VALUE_NONE,
+              'Run PHP built-in webserver on the output directory for angular.'
           )
           ->addArgument(
-            'location',
-            InputArgument::REQUIRED,
-            'Location to grade. This can be a file or directory.'
-          )
-        ;
+              'location',
+              InputArgument::REQUIRED,
+              'Location to grade. This can be a file or directory.'
+          );
     }
 
     /**
@@ -109,7 +107,7 @@ class RunCommand extends BaseCommand
 
         /* @var ParserInterface $parser */
         foreach ($parsers as $key => $parser) {
-          $this->log($output, "Running parser: " . $key);
+            $this->log($output, "Running parser: " . $key);
             /* @var Finder $finderInstance */
             $finderInstance = clone $finder;
             $parser->run($finderInstance, $messages);
@@ -118,30 +116,29 @@ class RunCommand extends BaseCommand
         $outputDir = $input->getOption('output-dir');
         $serve = $input->getOption('serve');
         $format = $input->getOption('format');
-        $this->log($output, "Verbose level - " . $output->getVerbosity()." -", 2);
+        $this->log($output, "Verbose level - " . $output->getVerbosity() . " -", 2);
         if ($format == 'console') {
             $formatter = new ConsoleFormatter();
-        }
-        else if ($format == 'yaml') {
+        } elseif ($format == 'yaml') {
             $formatter = new YamlFormatter();
         }
 
         if ($serve) {
-          $this->log($output, "Setting '--format' to angular");
-           $format = 'angular';
-           if (is_null($outputDir)) {
-             $tempfile=tempnam(sys_get_temp_dir(),'phpgrade-');
-             if (file_exists($tempfile)) {
-               unlink($tempfile);
-             }
-             mkdir($tempfile);
-             $outputDir = $tempfile;
-             $this->log($output, "Created temporary '--output-dir' directory as none given: " . $outputDir);
-           }
+            $this->log($output, "Setting '--format' to angular");
+            $format = 'angular';
+            if (is_null($outputDir)) {
+                $tempfile = tempnam(sys_get_temp_dir(), 'phpgrade-');
+                if (file_exists($tempfile)) {
+                    unlink($tempfile);
+                }
+                mkdir($tempfile);
+                $outputDir = $tempfile;
+                $this->log($output, "Created temporary '--output-dir' directory as none given: " . $outputDir);
+            }
         }
         if ($format == 'angular') {
-          $formatter = new AngularFormatter();
-          $formatter->setRunServer(true);
+            $formatter = new AngularFormatter();
+            $formatter->setRunServer(true);
         }
 
         $formatter->setOutput($output);
@@ -153,7 +150,7 @@ class RunCommand extends BaseCommand
 
         if ($format == 'angular') {
             $formatter->format($messages->getMessages());
-        }else{
+        } else {
             $formatter->format($messages->getMessages());
         }
 
