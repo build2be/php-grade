@@ -29,10 +29,9 @@ class YamlFormatter extends BaseFormatter
     private function messageToArray(Message $message)
     {
         return array(
-          'tool' => $message->getTool(),
-          'level' => $message->getErrorLevel(),
-          'message' => $message->getMessage()
+            'tool' => $message->getTool(),
+            'level' => $message->getErrorLevel(),
+            'message' => $message->getMessage()
         );
     }
-
-} 
+}

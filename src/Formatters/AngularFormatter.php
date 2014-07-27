@@ -13,22 +13,23 @@ use PhpGrade\Message;
 
 class AngularFormatter extends BaseFormatter
 {
-    var $runServer = false;
+    /* @var boolean $runServer */
+    private $runServer = false;
 
     public function format($messages)
     {
         $phpGradeRoot = __DIR__ . '/../../';
         $resourceRoot = $phpGradeRoot . 'resource/web/';
         $tempDir = $phpGradeRoot . 'tmp/';
-        $this->ensure_directory($tempDir);
-        $this->recurse_copy($resourceRoot, $tempDir);
-        $this->ensure_directory($tempDir . 'data/');
+        $this->ensureDirectory($tempDir);
+        $this->recurseCopy($resourceRoot, $tempDir);
+        $this->ensureDirectory($tempDir . 'data/');
 
         $index = array('files' => array());
         $totalCounter = array(
-          'info' => 0,
-          'warning' => 0,
-          'error' => 0
+            'info' => 0,
+            'warning' => 0,
+            'error' => 0
         );
         foreach ($messages as $filename => $file) {
             $counter = array(
@@ -39,7 +40,7 @@ class AngularFormatter extends BaseFormatter
             foreach ($file as &$line) {
                 foreach ($line as &$message) {
                     $message = $this->messageToArray($message);
-                    switch($message['level']){
+                    switch ($message['level']) {
                         case Message::LEVEL_INFO:
                             $counter['info']++;
                             break;
@@ -61,9 +62,9 @@ class AngularFormatter extends BaseFormatter
             $json = json_encode($file);
             $jsonFileName = $tempDir . 'data/' . sha1($filename) . '.json';
             $index['files'][] = array(
-              'resource' => sha1($filename) . '.json',
-              'filename' => $filename,
-              'messages' => $counter
+                'resource' => sha1($filename) . '.json',
+                'filename' => $filename,
+                'messages' => $counter
             );
             if (!is_dir(dirname($jsonFileName))) {
                 mkdir(dirname($jsonFileName), 0777, true);
@@ -75,24 +76,24 @@ class AngularFormatter extends BaseFormatter
         file_put_contents($tempDir . 'data/index.json', json_encode($index));
 
         $outputDir = $this->getOutputDir();
-        if(substr($outputDir, -1) == '/'){
+        if (substr($outputDir, -1) == '/') {
             $outputDir = substr($outputDir, 0, -1);
         }
 
-        if($outputDir !== null){
-            if(file_exists($outputDir . '/data/history.json')){
+        if ($outputDir !== null) {
+            if (file_exists($outputDir . '/data/history.json')) {
                 $this->getOutput()->writeln('Loading history.');
                 $history = json_decode(file_get_contents($outputDir . '/data/history.json'), true);
-            }else{
+            } else {
                 $this->getOutput()->writeln('Empty history initialised: ' . $outputDir . '/data/history.json');
                 $history = array();
             }
             $history[] = $index;
             file_put_contents($tempDir . 'data/history.json', json_encode($history));
-            $this->recurse_copy($tempDir, $outputDir);
+            $this->recurseCopy($tempDir, $outputDir);
         }
 
-        if($outputDir === null){
+        if ($outputDir === null) {
             $outputDir = $tempDir;
         }
 
@@ -107,22 +108,23 @@ class AngularFormatter extends BaseFormatter
     private function messageToArray(Message $message)
     {
         return array(
-          'tool' => $message->getTool(),
-          'level' => $message->getErrorLevel(),
-          'message' => $message->getMessage()
+            'tool' => $message->getTool(),
+            'level' => $message->getErrorLevel(),
+            'message' => $message->getMessage()
         );
     }
 
-    private function mergeSourceCode(array $messages, $filename){
+    private function mergeSourceCode(array $messages, $filename)
+    {
         $source = file($filename);
         $result = array();
-        foreach($source as $linenr => $line){
+        foreach ($source as $linenr => $line) {
             $lineObj = array(
                 'nr' => $linenr + 1,
                 'line' => str_replace("\n", "", $line),
                 'msg' => array(),
             );
-            if(isset($messages[$linenr + 1])){
+            if (isset($messages[$linenr + 1])) {
                 $lineObj['msg'] = $messages[$linenr + 1];
             }
             $result[] = $lineObj;
@@ -130,7 +132,7 @@ class AngularFormatter extends BaseFormatter
         return array('filename' => $filename, 'lines' => $result);
     }
 
-    function recurse_copy($source, $dest)
+    private function recurseCopy($source, $dest)
     {
         // Check for symlinks
         if (is_link($source)) {
@@ -156,7 +158,7 @@ class AngularFormatter extends BaseFormatter
             }
 
             // Deep copy directories
-            $this->recurse_copy("$source/$entry", "$dest/$entry");
+            $this->recurseCopy("$source/$entry", "$dest/$entry");
         }
 
         // Clean up
@@ -164,8 +166,9 @@ class AngularFormatter extends BaseFormatter
         return true;
     }
 
-    private function ensure_directory($path){
-        if(!is_dir($path)){
+    private function ensureDirectory($path)
+    {
+        if (!is_dir($path)) {
             mkdir($path, 0777, true);
         }
     }
@@ -173,15 +176,16 @@ class AngularFormatter extends BaseFormatter
     /**
      * @return boolean
      */
-    public function isRunServer() {
+    public function isRunServer()
+    {
         return $this->runServer;
     }
 
     /**
      * @param boolean $runServer
      */
-    public function setRunServer($runServer) {
+    public function setRunServer($runServer)
+    {
         $this->runServer = $runServer;
     }
-
 }

@@ -23,18 +23,18 @@ class PhpMdParser extends BaseParser implements ParserInterface
         foreach ($iterator->name("*.php") as $file) {
             $builder = $this->getBuilder('phpmd');
             $builder->setArguments(
-              array(
-                $file,
-                'xml',
-                'cleancode,codesize,controversial,design,naming,unusedcode',
-              )
+                array(
+                    $file,
+                    'xml',
+                    'cleancode,codesize,controversial,design,naming,unusedcode',
+                )
             );
 
             $process = new Process($builder->getProcess()->getCommandLine());
             $process->run();
 
             $output = $process->getOutput();
-            $messageList->addMessages((string)$file, $this->parseOutput($output));
+            $messageList->addMessages((string) $file, $this->parseOutput($output));
         }
     }
 
@@ -51,11 +51,11 @@ class PhpMdParser extends BaseParser implements ParserInterface
         if ($file->count() > 0) {
             foreach ($file->children() as $phpmdMessage) {
                 $messageObject = new Message('phpmd');
-                $lineNr = (int)$phpmdMessage['beginline'];
+                $lineNr = (int) $phpmdMessage['beginline'];
                 $messageObject->setLine($lineNr);
-                $messageObject->setMessage(trim((string)$phpmdMessage));
+                $messageObject->setMessage(trim((string) $phpmdMessage));
 
-                $priority = (int)$phpmdMessage['priority'];
+                $priority = (int) $phpmdMessage['priority'];
                 $errorLevel = Message::LEVEL_INFO;
                 if ($priority >= $config->getPhpcsWarningLevel()) {
                     $errorLevel = Message::LEVEL_WARNING;
@@ -69,5 +69,4 @@ class PhpMdParser extends BaseParser implements ParserInterface
         }
         return $result;
     }
-
-} 
+}

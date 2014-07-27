@@ -22,11 +22,11 @@ class ConsoleFormatter extends BaseFormatter
     protected function formatMessage(Message $message)
     {
         printf(
-          "%5s [ %-10s ][ %-7s ] %s\n",
-          (string)$message->getLine(),
-          $message->getTool(),
-          $message->getErrorLevel(true),
-          $message->getMessage()
+            "%5s [ %-10s ][ %-7s ] %s\n",
+            (string) $message->getLine(),
+            $message->getTool(),
+            $message->getErrorLevel(true),
+            $message->getMessage()
         );
     }
-} 
+}

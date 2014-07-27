@@ -15,4 +15,4 @@ use Symfony\Component\Finder\Finder;
 interface ParserInterface
 {
     public function run(Finder $iterator, MessageList &$messageList);
-} 
+}

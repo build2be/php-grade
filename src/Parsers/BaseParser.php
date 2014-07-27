@@ -19,4 +19,4 @@ class BaseParser
         $builder->setPrefix($prefix);
         return $builder;
     }
-} 
+}

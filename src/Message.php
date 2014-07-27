@@ -14,7 +14,7 @@ class Message
     const LEVEL_WARNING = 1;
     const LEVEL_ERROR = 2;
 
-    function __construct($tool)
+    public function __construct($tool)
     {
         $this->setTool($tool);
     }
@@ -93,6 +93,4 @@ class Message
     {
         $this->tool = $tool;
     }
-
-
-} 
+}

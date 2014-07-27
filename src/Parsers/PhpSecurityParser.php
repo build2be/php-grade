@@ -24,7 +24,7 @@ class PhpSecurityParser extends BaseParser implements ParserInterface
         $composerLockFiles = iterator_to_array($composerIterator, false);
         if (count($composerLockFiles) > 0) {
             $checker = new SecurityChecker();
-            $report = $checker->check((string)$composerLockFiles[0], 'json');
+            $report = $checker->check((string) $composerLockFiles[0], 'json');
             $report = json_decode($report, true);
 
             $jsonFile = str_replace('composer.lock', 'composer.json', $composerLockFiles[0]);
@@ -50,5 +50,4 @@ class PhpSecurityParser extends BaseParser implements ParserInterface
             $messageList->addMessages($jsonFile, $result);
         }
     }
-
-} 
+}

@@ -19,10 +19,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 class BaseFormatter
 {
     /* @var string $outputDir */
-    var $outputDir;
+    private $outputDir;
 
     /** @var OutputInterface $output */
-    var $output = null;
+    private $output = null;
 
     public function format($messages)
     {
@@ -53,28 +53,32 @@ class BaseFormatter
     /**
      * @return string
      */
-    public function getOutputDir() {
+    public function getOutputDir()
+    {
         return $this->outputDir;
     }
 
     /**
      * @param string $outputDir
      */
-    public function setOutputDir($outputDir) {
+    public function setOutputDir($outputDir)
+    {
         $this->outputDir = $outputDir;
     }
 
     /**
      * @return OutputInterface
      */
-    public function getOutput() {
-       return $this->output;
+    public function getOutput()
+    {
+        return $this->output;
     }
 
     /**
      * @param OutputInterface $output
      */
-    public function setOutput($output) {
+    public function setOutput($output)
+    {
         $this->output = $output;
     }
 }

@@ -25,10 +25,10 @@ class PhpCpdParser extends BaseParser implements ParserInterface
         $detector = new Detector(new DefaultStrategy(), null);
         $config = new Config();
         $clones = $detector->copyPasteDetection(
-          $iterator->name("*.php"),
-          $config->getPhpcpdMinLines(),
-          $config->getPhpcpdMinTokens(),
-          $config->isPhpcpdFuzzyVariableMatching()
+            $iterator->name("*.php"),
+            $config->getPhpcpdMinLines(),
+            $config->getPhpcpdMinTokens(),
+            $config->isPhpcpdFuzzyVariableMatching()
         );
 
         if (count($clones) == 0) {
@@ -36,7 +36,7 @@ class PhpCpdParser extends BaseParser implements ParserInterface
         }
         foreach ($clones as $clone) {
             foreach ($clone->getFiles() as $file) {
-                $filename = (string)$file->getName();
+                $filename = (string) $file->getName();
                 $lineNo = $file->getStartLine();
                 $messageObject = new Message('phpcpd');
                 $messageObject->setLine($lineNo);
@@ -47,5 +47,4 @@ class PhpCpdParser extends BaseParser implements ParserInterface
             }
         }
     }
-
-} 
+}

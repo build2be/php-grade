@@ -39,5 +39,4 @@ class PhpDcdParser extends BaseParser implements ParserInterface
             $messageList->addMessages($filename, $result);
         }
     }
-
-} 
+}

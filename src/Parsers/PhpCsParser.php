@@ -24,9 +24,9 @@ class PhpCsParser extends BaseParser implements ParserInterface
         foreach ($iterator as $file) {
             $builder = $this->getBuilder('phpcs');
             $args = array(
-              "--standard=PSR2",
-              '--report=xml',
-              $file,
+                "--standard=PSR2",
+                '--report=xml',
+                $file,
             );
             $builder->setArguments($args);
 
@@ -34,7 +34,7 @@ class PhpCsParser extends BaseParser implements ParserInterface
             $process->run();
 
             $output = $process->getOutput();
-            $messageList->addMessages((string)$file, $this->parseOutput($output));
+            $messageList->addMessages((string) $file, $this->parseOutput($output));
         }
     }
 
@@ -51,11 +51,11 @@ class PhpCsParser extends BaseParser implements ParserInterface
         if ($file !== null && $file->count() > 0) {
             foreach ($file->children() as $phpcsMessage) {
                 $messageObject = new Message('phpcs');
-                $lineNr = (int)$phpcsMessage['line'];
+                $lineNr = (int) $phpcsMessage['line'];
                 $messageObject->setLine($lineNr);
-                $messageObject->setMessage((string)$phpcsMessage);
+                $messageObject->setMessage((string) $phpcsMessage);
 
-                $severity = (int)$phpcsMessage['severity'];
+                $severity = (int) $phpcsMessage['severity'];
                 $errorLevel = Message::LEVEL_INFO;
                 if ($severity >= $config->getPhpcsWarningLevel()) {
                     $errorLevel = Message::LEVEL_WARNING;
@@ -69,5 +69,4 @@ class PhpCsParser extends BaseParser implements ParserInterface
         }
         return $result;
     }
-
-} 
+}

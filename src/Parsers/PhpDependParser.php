@@ -20,8 +20,13 @@ class PhpDependParser extends BaseParser implements ParserInterface
     {
         // pdepend --summary-xml=$2 $1
         $builder = $this->getBuilder('pdepend');
+        // TODO: move this to BaseParser::randomFile()
         $randomFile = microtime();
-        $builder->setArguments(array('--summary-xml="/tmp/' . $randomFile . '"', $file));
+        $args = array(
+            '--summary-xml="/tmp/' . $randomFile . '"',
+            $file
+        );
+        $builder->setArguments($args);
 
         $process = new Process($builder->getProcess()->getCommandLine());
         $process->run();
@@ -67,6 +72,7 @@ class PhpDependParser extends BaseParser implements ParserInterface
         }
         $result = array();
         $config = new Config();
+        // TODO: undefined variable.
         foreach ($package->children() as $class) {
 
 
@@ -91,6 +97,6 @@ class PhpDependParser extends BaseParser implements ParserInterface
 
     private function parseFunction($nodePath)
     {
+        //TODO: nop ?
     }
-
-} 
+}

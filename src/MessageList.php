@@ -36,5 +36,4 @@ class MessageList
         }
         return $result;
     }
-
-} 
+}
