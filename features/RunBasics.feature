@@ -44,3 +44,10 @@ Feature: Generate reports
       """
       2: Verbose level - 3 -
       """
+
+  Scenario: Run test on directory with most verbose
+    When I run "bin/php-grade run -vvv" with "tests/fixtures"
+    Then STDOUT should contain:
+      """
+      2: Verbose level - 4 -
+      """
