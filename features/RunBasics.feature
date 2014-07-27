@@ -16,7 +16,7 @@ Feature: Generate reports
     When I run "bin/php-grade run " with "tests/fixtures"
     Then STDOUT should contain:
       """
-      Missing file doc comment
+      Opening brace should be on a new line
       """
     And STDOUT should not contain:
       """
